@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine Bot Sender</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="filmes_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Cine Bot Sender</h1>
+            <p>Filmes, Séries e Novelas para o Telegram.</p>
+            <div style="margin-top: 10px;">
+                <a href="anime_index.html" class="toggle-btn"
+                    style="text-decoration: none; display: inline-block; background: #6c5ce7; color: white;">Ir para
+                    Animes <i class="fa-solid fa-ghost"></i></a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Search Section -->
+            <section class="glass-panel search-section">
+                <div class="search-controls">
+                    <div class="toggle-container">
+                        <button class="toggle-btn active" data-type="tv">Séries / Novelas</button>
+
+                        <button class="toggle-btn" data-type="movie">Filmes</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="searchInput" placeholder="Digite o nome..." autocomplete="off">
+                        <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-split">
+                <!-- Results Section -->
+                <section class="results-section">
+                    <h2 class="section-title">Resultados (TMDB)</h2>
+                    <div id="resultsGrid" class="results-grid">
+                        <div class="placeholder-msg">Faça uma busca para ver os resultados.</div>
+                    </div>
+                </section>
+
+                <!-- Editor Section -->
+                <section class="glass-panel editor-section" id="editorSection">
+                    <h2 class="section-title">Editor de Envio</h2>
+                    <div class="poster-preview">
+                        <img id="previewPoster" src="placeholder_poster.png" alt="Poster Preview">
+                    </div>
+
+                    <form id="botForm">
+                        <div class="form-group highlight-group">
+                            <label><i class="fa-solid fa-bullhorn"></i> Canal de Destino</label>
+                            <select id="targetChannel">
+                                <option value="">Carregando canais...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Link da Capa</label>
+                            <input type="text" id="entryPoster" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" id="entryTitle">
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Ano</label>
+                                <input type="text" id="entryYear">
+                            </div>
+                            <div class="form-group">
+                                <label>Avaliação (0-10)</label>
+                                <input type="text" id="entryRating">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Episódios</label>
+                            <input type="text" id="entryEpisodes" placeholder="Ex: 10 ou N/A">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Áudio</label>
+                            <select id="entryAudio">
+                                <option value="Português">Português</option>
+                                <option value="Inglês">Inglês</option>
+                                <option value="Dual Audio">Dual Audio</option>
+                                <option value="Legendado">Legendado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gêneros</label>
+                            <input type="text" id="entryGenres" placeholder="#Ação #Drama">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Criador/Diretor</label>
+                            <input type="text" id="entryCreator" placeholder="Nome do criador">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Elenco Principal</label>
+                            <input type="text" id="entryCast" placeholder="Atores principais">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sinopse</label>
+                            <textarea id="entrySynopsis" rows="6"></textarea>
+                        </div>
+
+                        <div class="form-group highlight-group">
+                            <label><i class="fa-solid fa-play-circle"></i> Link Assistir (Telegram)</label>
+                            <input type="text" id="entryWatchLink" placeholder="https://t.me/...">
+                        </div>
+
+                        <div class="preview-box">
+                            <h3>Prévia da Mensagem</h3>
+                            <pre id="messagePreview"></pre>
+                        </div>
+
+                        <button type="submit" id="sendBtn" class="send-btn">
+                            <i class="fa-paper-plane"></i> Enviar para Bot
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">Enviado com sucesso!</div>
+
+    <script src="filmes_script.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+</body>
+
+</html>

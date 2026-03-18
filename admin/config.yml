@@ -1,0 +1,39 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update (optional; defaults to master)
+
+media_folder: "images/uploads" # Media files will be stored in the repo under images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+  - name: "configuracoes"
+    label: "Configurações Gerais"
+    editor:
+      preview: false
+    files:
+      - label: "Configurações do Site"
+        name: "settings"
+        file: "data/settings.json"
+        fields:
+          - label: "Canais de Destino"
+            name: "channels"
+            widget: "list"
+            fields:
+              - label: "Nome do Canal"
+                name: "name"
+                widget: "string"
+              - label: "ID do Canal (ex: -100...)"
+                name: "id"
+                widget: "string"
+          - label: "Link de Apoio ao Projeto (Telegram)"
+            name: "supportLink"
+            widget: "string"
+            default: "https://t.me/c/1910214917/61/1893"
+          - label: "Link Para Mais (Telegram)"
+            name: "moreLink"
+            widget: "string"
+            default: "https://t.me/+bfifdpJ6lypkYjUx"
+          - label: "Link de Assistir Padrão (Opcional)"
+            name: "defaultWatchLink"
+            widget: "string"
+            required: false

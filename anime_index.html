@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniBot Sender - Temporada</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="anime_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-ghost"></i> AniBot Sender</h1>
+            <p>Animes da Temporada e Busca (Jikan API)</p>
+        </header>
+
+        <main>
+            <!-- Search Section -->
+            <section class="glass-panel search-section">
+                <div class="search-controls">
+                    <div class="toggle-container">
+                        <button class="toggle-btn active" data-type="anime">Anime (Jikan)</button>
+                        <button class="toggle-btn" data-type="cartoon">Desenhos (TVMaze)</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="searchInput" placeholder="Buscar anime..." autocomplete="off">
+                        <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-split">
+                <!-- Results Section -->
+                <section class="results-section">
+                    <h2 class="section-title">Resultados</h2>
+                    <div id="resultsGrid" class="results-grid">
+                        <div class="placeholder-msg">Carregando temporada atual...</div>
+                    </div>
+                </section>
+
+                <!-- Editor Section -->
+                <section class="glass-panel editor-section" id="editorSection">
+                    <h2 class="section-title">Editor de Envio</h2>
+                    <div class="poster-preview">
+                        <img id="previewPoster" src="placeholder_poster.png" alt="Poster Preview">
+                    </div>
+
+                    <form id="botForm">
+                        <div class="form-group highlight-group">
+                            <label><i class="fa-solid fa-bullhorn"></i> Canal de Destino</label>
+                            <select id="targetChannel">
+                                <option value="-1002444245954">Desenhos Brasil</option>
+                                <option value="-1003671078681">Bananil Séries</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" id="entryTitle">
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Ano</label>
+                                <input type="text" id="entryYear">
+                            </div>
+                            <div class="form-group">
+                                <label>Nota (MAL)</label>
+                                <input type="text" id="entryRating">
+                            </div>
+                            <div class="form-group">
+                                <label>Episódios</label>
+                                <input type="text" id="entryEpisodes">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Áudio</label>
+                            <select id="entryAudio">
+                                <option value="Português">Português</option>
+                                <option value="Legendado">Legendado</option>
+                                <option value="Dual Audio">Dual Audio</option>
+                                <option value="Japonês">Japonês</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gêneros</label>
+                            <input type="text" id="entryGenres" placeholder="#Ação #Shounen">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estúdio</label>
+                            <input type="text" id="entryStudio" placeholder="Nome do estúdio">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sinopse</label>
+                            <textarea id="entrySynopsis" rows="6"></textarea>
+                        </div>
+
+                        <div class="form-group highlight-group">
+                            <label><i class="fa-solid fa-play-circle"></i> Link Assistir (Telegram)</label>
+                            <input type="text" id="entryWatchLink" placeholder="https://t.me/...">
+                        </div>
+
+                        <div class="preview-box">
+                            <h3>Prévia da Mensagem</h3>
+                            <pre id="messagePreview"></pre>
+                        </div>
+
+                        <button type="submit" id="sendBtn" class="send-btn">
+                            <i class="fa-paper-plane"></i> Enviar para Bot
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">Enviado com sucesso!</div>
+
+    <script src="anime_script.js"></script>
+</body>
+
+</html>
