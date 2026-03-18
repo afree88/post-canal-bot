@@ -5,6 +5,31 @@ const TMDB_KEY = '9ef118499c4e6a024523225878b5dbb1';
 // State
 let currentMode = 'anime'; // 'anime' or 'cartoon'
 let selectedResult = null;
+let siteSettings = null;
+
+// Load Settings
+async function loadSettings() {
+    try {
+        const res = await fetch('data/settings.json?t=' + new Date().getTime());
+        siteSettings = await res.json();
+        
+        const targetChannelSelect = document.getElementById('targetChannel');
+        targetChannelSelect.innerHTML = '';
+        if (siteSettings.channels && siteSettings.channels.length > 0) {
+            siteSettings.channels.forEach(ch => {
+                const opt = document.createElement('option');
+                opt.value = ch.id;
+                opt.textContent = ch.name;
+                targetChannelSelect.appendChild(opt);
+            });
+        } else {
+            targetChannelSelect.innerHTML = '<option value="">Nenhum canal configurado</option>';
+        }
+    } catch (e) {
+        console.error('Error loading settings:', e);
+    }
+}
+loadSettings();
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
@@ -404,8 +429,11 @@ function generateMessage() {
     const st = escapeHtml(inputs.studio.value);
     const s = escapeHtml(inputs.synopsis.value);
 
-    const wVal = inputs.watchLink.value || 'https://t.me/+sRiJH0cUE5Nzkx';
-    const w = escapeHtml(wVal);
+    let wVal = inputs.watchLink.value;
+    if (!wVal && siteSettings && siteSettings.defaultWatchLink) {
+        wVal = siteSettings.defaultWatchLink;
+    }
+    const w = wVal ? escapeHtml(wVal) : '';
 
     let msg = `🌟 <b>${t}</b> 🌟\n\n`;
 
@@ -420,9 +448,17 @@ function generateMessage() {
         msg += `\n\n📖 <b>Sinopse:</b>  \n<blockquote>${s}</blockquote>\n`;
     }
 
-    msg += `\n👉 <a href="${w}">Assistir</a> 👈\n\n`;
-    msg += `🌟 <a href="https://t.me/c/1910214917/61/1893">Apoie o Projeto</a> 🌟\n\n`;
-    msg += `📺 <a href="https://t.me/+bfifdpJ6lypkYjUx">Para Mais</a> 📺\n\n.`;
+    if (w) {
+        msg += `\n👉 <a href="${w}">Assistir</a> 👈\n\n`;
+    } else {
+        msg += `\n`;
+    }
+
+    const support = (siteSettings && siteSettings.supportLink) ? siteSettings.supportLink : 'https://t.me/c/1910214917/61/1893';
+    const more = (siteSettings && siteSettings.moreLink) ? siteSettings.moreLink : 'https://t.me/+bfifdpJ6lypkYjUx';
+
+    msg += `🌟 <a href="${support}">Apoie o Projeto</a> 🌟\n\n`;
+    msg += `📺 <a href="${more}">Para Mais</a> 📺\n\n.`;
 
     return msg;
 }
@@ -431,8 +467,6 @@ function generateMessage() {
 async function sendToTelegram() {
     const message = generateMessage();
     const posterUrl = previewPoster.src;
-    const watchLink = inputs.watchLink.value || 'https://t.me/+sRiJH0cUE5Nzkx';
-    const supportLink = 'https://t.me/c/1910214917/61/1893';
 
     if (!selectedResult && previewPoster.src.includes('placeholder')) {
         alert('Selecione um anime/desenho primeiro!');
